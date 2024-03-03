@@ -12,7 +12,6 @@ class SubPageListView(ListAPIView):
     serializer_class = SubPageSerializer
     
 
-
 class ImageViews(APIView):
     
     def get( self,request, subpage_name, format=None):
@@ -35,11 +34,6 @@ class searchfunction(APIView):
     
 class blogViews(APIView):
     
-    
-    
-    
-    
-    
     def post(self, request, format=None):
         try:
             serializer = blogSerializer(data=request.data)
@@ -49,12 +43,6 @@ class blogViews(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except IntegrityError as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    
-    
-    
-    
-    
-    
     
     
     def get(self, request, format=None):
