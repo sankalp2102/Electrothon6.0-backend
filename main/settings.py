@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-fe@sjwn*&e@+9ey$b_dto_%zhx21mx*lxx8z-ew2de%dsj-py_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'electrothon6-0-backend.onrender.com',
+]
 
 
 # Application definition
