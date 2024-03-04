@@ -15,33 +15,28 @@ class SubPageListView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    def delete(self, request, formart = None):
+        SubPage.objects.all().delete()
+        return Response({'message': 'All data deleted successfully'}, status=status.HTTP_200_OK)
+    
 
 class ImageViews(APIView):
     
-    
-    
-    
-    
+
     def post(self, request, subpage_name, format=None):
         try:
             subpage = SubPage.objects.get(name=subpage_name)
         except SubPage.DoesNotExist:
             return Response({'error': 'SubPage not found'}, status=status.HTTP_404_NOT_FOUND)
-
         request.data['subpage'] = subpage.id
         serializer = ImageForRoadmapSerializer(data=request.data)
-        
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
-    
-    
     def get(self, request, subpage_name, format=None):
-        # Assuming 'subpage_name' is the name of the SubPage
         try:
             subpage = SubPage.objects.get(name=subpage_name)
             images = ImageforRoadmap.objects.filter(subpage=subpage)
@@ -49,17 +44,13 @@ class ImageViews(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except SubPage.DoesNotExist:
             return Response({'error': 'SubPage not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        
+    def delete(self, request, formart = None):
+        ImageforRoadmap.objects.all().delete()
+        return Response({'message': 'All data deleted successfully'}, status=status.HTTP_200_OK)
 
-    
-    # def get( self,request, subpage_name, format=None):
-    #     images = ImageforRoadmap.objects.filter(subpage = subpage_name)
-    #     serializer = ImageForRoadmapSerializer(images, many=True)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    
-    
-    
-    
+
     
 class searchfunction(APIView):
     
@@ -89,7 +80,12 @@ class blogViews(APIView):
     def get(self, request, format=None):
         blogs = Blog.objects.all()
         serializer = blogSerializer(blogs, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
+    def delete(self, request, formart = None):
+        Blog.objects.all().delete()
+        return Response({'message': 'All data deleted successfully'}, status=status.HTTP_200_OK)
     
     
 class TeamView(APIView):
@@ -98,3 +94,7 @@ class TeamView(APIView):
         team_members = TeamData.objects.all()
         serializer = Teamserializer(team_members, many=True)
         return Response(serializer.data)
+    
+    def delete(self, request, formart = None):
+        TeamData.objects.all().delete()
+        return Response({'message': 'All data deleted successfully'}, status=status.HTTP_200_OK)
