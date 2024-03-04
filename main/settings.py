@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'electrothon6-0-backend.onrender.com',
-    'localhost'
 ]
 
 

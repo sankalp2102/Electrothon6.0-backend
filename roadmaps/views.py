@@ -7,17 +7,58 @@ from django.db import IntegrityError
 from .models import *
 from .serializers import *
 
-class SubPageListView(ListAPIView):
-    queryset = SubPage.objects.all()
-    serializer_class = SubPageSerializer
+class SubPageListView(APIView):
+    def post(self, request, format=None):
+        serializer = SubPageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
 class ImageViews(APIView):
     
-    def get( self,request, subpage_name, format=None):
-        images = ImageforRoadmap.objects.filter(subpage = subpage_name)
-        serializer = ImageForRoadmapSerializer(images, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
+    
+    
+    def post(self, request, subpage_name, format=None):
+        try:
+            subpage = SubPage.objects.get(name=subpage_name)
+        except SubPage.DoesNotExist:
+            return Response({'error': 'SubPage not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        request.data['subpage'] = subpage.id
+        serializer = ImageForRoadmapSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    
+    
+    def get(self, request, subpage_name, format=None):
+        # Assuming 'subpage_name' is the name of the SubPage
+        try:
+            subpage = SubPage.objects.get(name=subpage_name)
+            images = ImageforRoadmap.objects.filter(subpage=subpage)
+            serializer = ImageForRoadmapSerializer(images, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except SubPage.DoesNotExist:
+            return Response({'error': 'SubPage not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    
+    # def get( self,request, subpage_name, format=None):
+    #     images = ImageforRoadmap.objects.filter(subpage = subpage_name)
+    #     serializer = ImageForRoadmapSerializer(images, many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
+    
+    
     
     
 class searchfunction(APIView):

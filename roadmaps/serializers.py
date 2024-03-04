@@ -11,7 +11,7 @@ class ImageForRoadmapSerializer(serializers.ModelSerializer):
     class Meta:
         model = ImageforRoadmap
         fields = '__all__'
-        
+            
         
 class blogSerializer(serializers.ModelSerializer):
     class Meta:
