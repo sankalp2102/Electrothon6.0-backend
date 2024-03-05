@@ -17,6 +17,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=100)
     details = models.TextField()
+    reports = models.IntegerField(default = 0)
     
     def __str__(self):
         return self.title

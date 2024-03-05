@@ -88,6 +88,29 @@ class blogViews(APIView):
         return Response({'message': 'All data deleted successfully'}, status=status.HTTP_200_OK)
     
     
+class ReportblogViews(APIView):
+    
+    def post(self, request, blog_id):
+        try:
+            blog = Blog.objects.get(id = blog_id)
+            blog.reports += 1
+            
+            if blog.reports >=5:
+                blog.delete()
+                return Response({"message": "Blog deleted due to multiple reports."}, status=status.HTTP_204_NO_CONTENT)
+            
+            blog.save()
+            
+            serializer = blogSerializer(blog)
+            
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        except Blog.DoesNotExist:
+            return Response({"message": "Blog not found."}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+
 class TeamView(APIView):
     
     def get(self, request, format = None):
