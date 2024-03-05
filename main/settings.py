@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-fe@sjwn*&e@+9ey$b_dto_%zhx21mx*lxx8z-ew2de%dsj-py_
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    # 'electrothon6-0-backend.onrender.com',
+    'electrothon6-0-backend.onrender.com',
 ]
 
 
