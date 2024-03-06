@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class SubPage(models.Model):
@@ -13,11 +14,13 @@ class ImageforRoadmap(models.Model):
         return self.image
     
     
+    
 class Blog(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=100)
     details = models.TextField()
     reports = models.IntegerField(default = 0)
+    blog_date = models.DateTimeField('date published', auto_now=True)
     
     def __str__(self):
         return self.title
