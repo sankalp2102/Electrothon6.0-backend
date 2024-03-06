@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-fe@sjwn*&e@+9ey$b_dto_%zhx21mx*lxx8z-ew2de%dsj-py_
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'electrothon6-0-backend.onrender.com',
+    # 'electrothon6-0-backend.onrender.com',
 ]
 
 
@@ -72,7 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'main.wsgi.application'
 
-
+import dj_database_url
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -82,6 +82,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+DATABASES ["default"] = dj_database_url.parse("postgres://electrothon_database_9bqt_user:oOy7eUWanIVnbP8qLXEDyDAy4ZgZjEvA@dpg-cnk69pi1hbls739rqkog-a.singapore-postgres.render.com/electrothon_database_9bqt")
 
 
 # Password validation
