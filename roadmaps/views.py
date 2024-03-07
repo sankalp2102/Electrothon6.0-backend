@@ -15,6 +15,12 @@ class SubPageListView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    def get(self, request, format=None):
+        blogs = SubPage.objects.all()
+        serializer = SubPageSerializer(blogs, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
     def delete(self, request, formart = None):
         SubPage.objects.all().delete()
         return Response({'message': 'All data deleted successfully'}, status=status.HTTP_200_OK)
