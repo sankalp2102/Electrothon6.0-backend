@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
+from rest_framework.decorators import api_view
 from django.db import IntegrityError
 from .models import *
 from .serializers import *
@@ -57,16 +58,29 @@ class ImageViews(APIView):
 
 
     
-class searchfunction(APIView):
+# class searchfunction(APIView):
     
-    def get(self, request, format = None):
-        search_query = self.request.query_params.get('search', None)
-        if not search_query:
-            return Response({'error': 'Search query is required'}, status=status.HTTP_400_BAD_REQUEST)
+#     def get(self, request, format = None):
+#         search_query = self.request.query_params.get('search')
+#         if not search_query:
+#             return Response({'error': 'Search query is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-        subpages = SubPage.objects.filter(name__icontains=search_query)
-        serializer = SubPageSerializer(subpages, many=True)
-        return Response(serializer.data)
+#         subpages = SubPage.objects.filter(name__icontains=search_query)
+#         serializer = SubPageSerializer(subpages, many=True)
+#         return Response(serializer.data)
+# class searchfunction(generics.ListAPIView):
+#     queryset = SubPage.objects.all()
+#     serializer_class = SubPageSerializer
+@api_view(['GET'])
+def searchfunction(request):
+    subpage_list = SubPage.objects.all()
+    print(subpage_list)
+    serializer = SubPageSerializer(subpage_list, many=True)
+    if serializer:
+        return  Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    
     
     
 class blogViews(APIView):
